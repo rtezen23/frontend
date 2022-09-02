@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+*{
+    /* box-sizing: border-box;
+    margin: 0;
+    padding: 0; */
+    font-family: 'Lato', sans-serif;
+}
+
+body{
+    /* display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw; */
+    background-image: url(./assets/denim.png);
+    overflow: hidden;
+}
+
+/* LOGIN STYLES */
+.login-container{
+    width: 800px;
+    aspect-ratio: 1.8;
+    background: #fff;
+    border-radius: 20px;
+}
+
+.login-body{
+    display: flex;
+    justify-content: center;
+}
+
+.login-form{
+    width: 500px;
+    padding: 3em;
+}
+
+.svg-header{
+    margin-top: -20px;
+}
+
+
+/* DATATABLE STYLES */
+.rdt_TableCol {
+    background-color: #5A5857;
+    color: #fff
+}
+
+.rdt_TableCell {
+    background-color: #B0A7A5;
+}
+
+/* content */
+.main-content{
+    height: 100vh;
+    display: grid;
+    /* place-items: center; => default */
+    /* justify-content: center; */
+    align-content: center;
+    padding: 0 1em;
+}
+
+.personal-title {
+    color: #fff;
+    text-align: center;
+    width: 100vw;
+    margin-bottom: 2em;
+}
