@@ -1,67 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
-*{
-    /* box-sizing: border-box;
+* {
+	/* box-sizing: border-box;
     margin: 0;
     padding: 0; */
-    font-family: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif;
 }
 
-body{
-    /* display: grid;
-    place-items: center;
-    height: 100vh;
-    width: 100vw; */
-    background-image: url(./assets/denim.png);
-    overflow: hidden;
+body {
+	/* display: grid;
+    place-items: center; */
+	/* height: 100vh;
+	width: 100vw; */
+	background-image: url(./assets/denim.png);
+	/* overflow: hidden; */
 }
 
 /* LOGIN STYLES */
-.login-container{
-    width: 800px;
-    aspect-ratio: 1.8;
-    background: #fff;
-    border-radius: 20px;
+.login-container {
+	width: 800px;
+	aspect-ratio: 1.8;
+	background: #fff;
+	border-radius: 20px;
 }
 
-.login-body{
-    display: flex;
-    justify-content: center;
+.login-body {
+	display: flex;
+	justify-content: center;
 }
 
-.login-form{
-    width: 500px;
-    padding: 3em;
+.login-form {
+	width: 500px;
+	padding: 3em;
 }
 
-.svg-header{
-    margin-top: -20px;
+.svg-header {
+	/* margin-top: -20px; */
+	border-radius: 18px 18px 0 0;
+	height: 100px;
+	background-color: #5a5857;
 }
 
+.svg-header > * {
+	border: 3px solid red;
+}
 
 /* DATATABLE STYLES */
 .rdt_TableCol {
-    background-color: #5A5857;
-    color: #fff
+	background-color: #5a5857;
+	color: #fff;
 }
 
 .rdt_TableCell {
-    background-color: #B0A7A5;
+	background-color: #b0a7a5;
 }
 
 /* content */
-.main-content{
-    height: 100vh;
-    display: grid;
-    /* place-items: center; => default */
-    /* justify-content: center; */
-    align-content: center;
-    padding: 0 1em;
+.main-content {
+	display: grid;
+	/* place-items: center; => default */
+	justify-content: center;
+	align-content: center;
+	padding: 0 1em;
 }
 
 .personal-title {
-    color: #fff;
-    text-align: center;
-    width: 100vw;
-    margin-bottom: 2em;
+	color: #fff;
+	text-align: center;
+	width: 100vw;
+	margin-bottom: 2em;
 }
