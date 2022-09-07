@@ -1,0 +1,27 @@
+.signup-container{
+    border: 3px solid orange;
+}
+
+.signup-title{
+    text-align: center;
+}
+
+.signup-form{
+    background-color: #fff;
+    width: 100%;
+    max-width: 1500px;
+}
+
+.signup-header{
+    color: #fff;
+    background-color: #5a5857;
+    height: 80px;
+    text-align: center;
+    line-height: 2em;
+    border-radius: 5px 5px 0 0 ;
+}
+
+.asterisco{
+    color: #f00;
+    margin-left: -5px;
+}

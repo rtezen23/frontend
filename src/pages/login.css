@@ -1,0 +1,48 @@
+/* LOGIN STYLES */
+.login-container {
+	width: 100%;
+	max-width: 600px;
+	background: #fff;
+	border-radius: 20px;
+	padding: 0;
+}
+
+.login-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1em;
+}
+
+.svg-header {
+	/* margin-top: -20px; */
+	border-radius: 18px 18px 0 0;
+	height: 100px;
+	background-color: #5a5857;
+}
+
+.login-logo{
+	width: 130px;
+	margin: 0 20px;
+}
+
+.form-container{
+	width: 80%;
+}
+
+.signup{
+	margin-left: 1em;
+}
+
+@media screen and (max-width: 523px) {
+	.login-body {
+		flex-direction: column;
+	}
+
+	.login-logo{
+		margin-top: 1em;
+	}
+	.form-container{
+		width: 100%;
+	}
+}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+
+import { Link, useNavigate } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
@@ -9,8 +10,14 @@ import { IconContext } from 'react-icons';
 export const Navbar = () => {
 
     const [sidebar, setSidebar] = useState(false);
+    const navigate = useNavigate();
 
     const showSidebar = () => setSidebar(!sidebar)
+
+    const logout = () => {
+        localStorage.setItem('token', '');
+        alert('Sesión cerrada')
+    };
 
   return (
     <>
@@ -32,7 +39,7 @@ export const Navbar = () => {
                         <li key={index} className={item.cName}>
                             <Link to={item.path}>
                                 {item.icon}
-                                <span>{item.title}</span>
+                                <span className={item.title === 'Logout' ? 'logout' : ''} onClick={item.title === 'Logout' ? logout : ()=>{}}>{item.title}</span>
                             </Link>
                         </li>
                     )

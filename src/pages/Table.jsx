@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DataTable, { createTheme } from 'react-data-table-component';
+import { useSelector } from 'react-redux';
 import 'styled-components';
 import '../index.css';
 
@@ -7,11 +8,13 @@ const columns = [
 	{
 		name: 'id',
 		selector: row => row.id,
+		grow: 1,
 	},
 	{
 		name: 'fecha_tmk',
 		selector: row => row.fecha_tmk,
 		grow: 2,
+		center: true
 	},
 	{
 		name: 'IDENTIFICADOR',
@@ -97,6 +100,9 @@ const columns = [
 ];
 
 export const Table = () => {
+	
+	const personalActivo = useSelector(state => state.personal )
+	
 	const [personal, setPersonal] = useState([]);
 
 	const URL = 'http://localhost:4000/api/v1/gestions';
@@ -105,7 +111,11 @@ export const Table = () => {
 		const response = await fetch(URL);
 		const data = await response.json();
 		// data.gestions[0].fecha_tmk;
-		setPersonal(data.gestions);
+		const newGestions = data.gestions.map(gestion => {
+			const newDate = new Date (gestion.fecha_tmk)
+			return {...gestion, fecha_tmk: newDate.toLocaleString()}
+		})
+		setPersonal(newGestions);
 	};
 
 	useEffect(() => {
@@ -151,6 +161,7 @@ export const Table = () => {
 
 	return (
 		<>
+			<h2 style={{color: '#fa840f'}}>Bienvenido(a) {personalActivo.NOMBRES} {personalActivo.APELLIDOS}</h2>
 			<h1 className='personal-title'>Registros Personal</h1>
 			<div className='table-responsive'>
 				<DataTable
