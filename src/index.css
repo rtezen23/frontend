@@ -13,7 +13,8 @@ body {
     place-items: center; */
 	/* height: 100vh;
 	width: 100vw; */
-	background-image: url(./assets/denim.png);
+	/* background-image: url(./assets/denim.png); */
+	background-color: #F5F5F5;
 	/* overflow: hidden; */
 }
 
@@ -35,18 +36,23 @@ body {
 
 /* DATATABLE STYLES */
 .rdt_TableCol {
-	background-color: #5a5857;
+	/* background-color: #5a5857; */
+	background-color: #fff;
 	color: #fff;
 }
 
 .rdt_TableCell {
-	background-color: #b0a7a5;
+	/* background-color: #b0a7a5; */
+	background-color: #fff;
 }
 
 .personal-title {
-	color: #fff;
+	color: #000;
 	text-align: center;
 	width: 100vw;
 	margin-bottom: 2em;
 }
 
+.table-responsive{
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

@@ -7,24 +7,33 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import './signup.css';
 import { useEffect } from 'react';
 import { useState } from 'react';
+
+import ReactSelect from "react-select";
 /*  */
 
 function Signup() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, watch, setValue, control } = useForm({
         defaultValues: {
-            departamento: ""
+            dpto: ""
     }});
+    // const { handleSubmit, reset, setValue, control } = useForm({ defaultValues });
     const navigate = useNavigate();
     const [ubigeos, setUbigeos] = useState([])
     const [departments, setDepartments] = useState([])
     const [provinces, setProvinces] = useState([])
     const [districts, setDistricts] = useState([])
+
+    const [dpto, setDpto] = useState('')
+
+    /* INPUTS */
+    // const [doc, setDoc] = useState('')
+    
 
     const URL = 'http://localhost:4000/api/v1/users/signup';
 
@@ -43,21 +52,28 @@ function Signup() {
     },[])
 
     /* W0RKING */
-    const handleProvinces = ( {value} ) => {
-        const departamentos = ubigeos.filter(ubigeo => ubigeo.departamento === value)
+    // e.name = 'hola'
+    // setDpto(data.value)
+    // console.log(data)
+    // console.log(e)
+    // e.value = data.value;
+
+    // const handleProvinces = ( data, e ) => {
+    const handleProvinces = ( e ) => {
+        const departamentos = ubigeos.filter(ubigeo => ubigeo.departamento === e.target.value)
         const provincias = [...new Set(departamentos.map(item => item.provincia))]
         setProvinces(provincias.sort())
     }
     
-    const handleDistricts = ( {value} ) => {
-        const provincias = ubigeos.filter(ubigeo => ubigeo.provincia === value)
-        console.log(provincias)
+    // const handleDistricts = ( {value} ) => {
+    const handleDistricts = ( e ) => {
+        const provincias = ubigeos.filter(ubigeo => ubigeo.provincia === e.target.value)
         const distritos = [...new Set(provincias.map(item => item.distrito))]
-        console.log(distritos)
         setDistricts(distritos.sort())
     }
 
     const onSubmit = (data, event) => {
+        console.log(data)
         event.preventDefault();
         // const apellidos = data.apellidos.toUpperCase();
         // const nombres = data.nombres.toUpperCase();
@@ -76,14 +92,31 @@ function Signup() {
       });
     }
 
+    const handleDoc = (e) => {
+        // console.log(e)
+        // setDoc(e.target.value)
+    }
+
     return (
         // <div className='signup-container rounded'>
             <div className="signup-form rounded">
                 <h1 className='signup-header mb-1'>Crear usuario</h1>
                 <Form className=' p-3 p-md-5' onSubmit={handleSubmit(onSubmit)}>
                     <Container>
-                        <Row>
+                        <Row xs={1} md={2} lg={3}>
                 <Col>
+                {/* <Controller
+            name="ReactSelect"
+            control={control}
+            render={({ field }) => (
+              <ReactSelect
+                isClearable
+                {...field}
+                options={departments?.map(department => ({ label: department, value: department }))}
+                {...register('dpto')}
+              />
+            )}
+          /> */}
                   <Form.Group className="mb-3" controlId="formBasicApellidos">
                       <Form.Label>Apellidos</Form.Label>
                       <Form.Control type="text" placeholder="Apellidos" {...register('apellidos')}/>
@@ -106,7 +139,21 @@ function Signup() {
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicDoc">
                       <Form.Label>Doc</Form.Label>
-                      <Form.Control type="text" placeholder="Doc" {...register('doc')}/>
+                      <Form.Control type="text" placeholder="Doc" {...register('doc', {
+                        //   required: {
+                        //     value: true,
+                        //     message: "Ingrese contraseña"
+                        //   },
+                        minLength: {
+                            value: 8,
+                            message: "La contraseña debe tener 8 caracteres"
+                          },
+                          maxLength: {
+                            value: 8,
+                            message: "La password debe tener 8 caracteres"
+                          },
+                        })}/>
+                        {errors.doc && <Form.Text variant='danger'>{errors.doc.message}</Form.Text>}
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicNombresEstado">
                       <Form.Label>Estado civil</Form.Label>
@@ -137,49 +184,61 @@ function Signup() {
                   
                   <Form.Group className="mb-3" controlId="formBasicDepartamento">
                       <Form.Label>Departamento</Form.Label>
-                      {/* <Form.Select {...register('dpto')}>
+                      <Form.Select {...register('dpto')} onChange={handleProvinces}>
                         <option>Seleccionar</option>
-                        <option value="1">Lima</option>
-                        <option value="2">Chiclayo</option>
-                      </Form.Select> */}
-                      <Select
-                        defaultValue={ { label: 'Buscar departamento' } }
+                        {
+                            departments?.map((department, index) => (
+                                <option key={index}>{department}</option>
+                            ))
+                        }
+                      </Form.Select>
+                      {/* <Select
+                        // name='b'
+                        // option='a'
+                        value={dpto}
+                        // defaultValue={ { label: 'Buscar departamento' } }
                         options = {departments?.map(department => ({ label: department, value: department }))}
                         onChange={handleProvinces}
-                        // {...register('departamento')}
-                        />
+                        {...register('dpto')}
+                        /> */}
                   </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicDistrito">
+                  <Form.Group className="mb-3" controlId="formBasicProvincia">
                       <Form.Label>Provincia</Form.Label>
-
-                      {/* <Form.Select {...register('distrito')}>
+                      {/* {...register('provincia')} */}
+                      <Form.Select onChange={handleDistricts}>
                         <option>Seleccionar</option>
-                        <option value="1">San Isidro</option>
-                        <option value="2">Surco</option>
-                      </Form.Select> */}
+                        {
+                            provinces?.map((province, index) => (
+                                <option key={index}>{province}</option>
+                            ))
+                        }
+                      </Form.Select>
 
-                      <Select
+                      {/* <Select
                         defaultValue={ { label: 'Buscar provincia' } }
                         options = {provinces?.map(province => ({ label: province, value: province }))}
                         onChange={handleDistricts}
                         // {...register('distrito')}
-                        />
+                        /> */}
 
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicDistrito">
                       <Form.Label>Distrito</Form.Label>
 
-                      {/* <Form.Select {...register('distrito')}>
+                      <Form.Select {...register('distrito')}>
                         <option>Seleccionar</option>
-                        <option value="1">San Isidro</option>
-                        <option value="2">Surco</option>
-                      </Form.Select> */}
+                        {
+                            districts?.map((district, index) => (
+                                <option key={index}>{district}</option>
+                            ))
+                        }
+                      </Form.Select>
 
-                      <Select
+                      {/* <Select
                         defaultValue={ { label: 'Buscar distrito' } }
                         options = {districts?.map(district => ({ label: district, value: district }))}
                         // {...register('distrito')}
-                        />
+                        /> */}
 
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicRefDir">
@@ -188,15 +247,45 @@ function Signup() {
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicTelefono">
                       <Form.Label>Teléfono</Form.Label>
-                      <Form.Control type="text" placeholder="Teléfono" {...register('tlf')}/>
+                      <Form.Control type="text" placeholder="Teléfono" {...register('tlf', {
+                        minLength: {
+                            value: 8,
+                            message: "El teléfono debe tener 8 caracteres"
+                          },
+                          maxLength: {
+                            value: 8,
+                            message: "El teléfono debe tener 8 caracteres"
+                          },
+                      })}/>
+                      {errors.tlf && <Form.Text variant='danger'>{errors.tlf.message}</Form.Text>}
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicCelular">
                       <Form.Label>Celular</Form.Label>
-                      <Form.Control type="text" placeholder="Celular" {...register('cel')}/>
+                      <Form.Control type="text" placeholder="Celular" {...register('cel', {
+                        minLength: {
+                            value: 9,
+                            message: "El celular debe tener 9 caracteres"
+                          },
+                          maxLength: {
+                            value: 9,
+                            message: "El celular debe tener 9 caracteres"
+                          },
+                      })}/>
+                      {errors.cel && <Form.Text variant='danger'>{errors.cel.message}</Form.Text>}
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>Email</Form.Label>
-                      <Form.Control type="email" placeholder="Email" {...register('email')}/>
+                      <Form.Control type="email" placeholder="Email" {...register('email', {
+                    required: {
+                      value: true,
+                      message: "Necesitas este campo"
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "El formato no es correcto"
+                    }
+                  })}/>
+                  {errors.email && <Form.Text variant='danger'>{errors.email.message}</Form.Text>}
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicGradoIns">
                       <Form.Label>Grado Ins</Form.Label>

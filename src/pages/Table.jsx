@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/esm/Button';
 import DataTable, { createTheme } from 'react-data-table-component';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import 'styled-components';
 import '../index.css';
 
@@ -102,6 +104,7 @@ const columns = [
 export const Table = () => {
 	
 	const personalActivo = useSelector(state => state.personal )
+	const navigate = useNavigate();
 	
 	const [personal, setPersonal] = useState([]);
 
@@ -161,8 +164,9 @@ export const Table = () => {
 
 	return (
 		<>
-			<h2 style={{color: '#fa840f'}}>Bienvenido(a) {personalActivo.NOMBRES} {personalActivo.APELLIDOS}</h2>
+			<h2 style={{color: '#000'}}>Bienvenido(a) {personalActivo.NOMBRES} {personalActivo.APELLIDOS}</h2>
 			<h1 className='personal-title'>Registros Personal</h1>
+			<Button onClick={()=>navigate('/signup')} variant='success' className='mb-5'>Crear usuario</Button>
 			<div className='table-responsive'>
 				<DataTable
 					// responsive
