@@ -17,7 +17,7 @@ export const SidebarData = [
   },
   {
     title: 'Gestión',
-    path: '#',
+    path: '/excel',
     icon: <CgPhone/>,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,

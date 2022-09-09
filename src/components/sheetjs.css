@@ -1,0 +1,16 @@
+.sheet-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+}
+
+.sheet-table{
+    
+}
+
+.sheet-button{
+    width: 200px;
+    margin: auto;
+}
