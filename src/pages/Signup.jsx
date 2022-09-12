@@ -7,20 +7,22 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
+import Card from 'react-bootstrap/Card';
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import './signup.css';
 import { useEffect } from 'react';
 import { useState } from 'react';
-
-import ReactSelect from "react-select";
-/*  */
+import {FaUserLock} from 'react-icons/fa';
+import {FaUserAlt} from 'react-icons/fa';
+import {ImArrowRight} from 'react-icons/im';
 
 function Signup() {
 
     const { register, handleSubmit, formState: { errors }, watch, setValue, control } = useForm({
         defaultValues: {
-            dpto: ""
+            dpto: '',
+            distrito: ''
     }});
     // const { handleSubmit, reset, setValue, control } = useForm({ defaultValues });
     const navigate = useNavigate();
@@ -30,11 +32,9 @@ function Signup() {
     const [districts, setDistricts] = useState([])
 
     const [dpto, setDpto] = useState('')
-
+    // const { onChange, onBlur, name, ref } = register('dpto'); 
     /* INPUTS */
     // const [doc, setDoc] = useState('')
-    
-
     const URL = 'http://localhost:4000/api/v1/users/signup';
 
     const setDepartamentos = (data) => {
@@ -54,45 +54,46 @@ function Signup() {
     /* W0RKING */
     // e.name = 'hola'
     // setDpto(data.value)
-    // console.log(data)
-    // console.log(e)
     // e.value = data.value;
 
     // const handleProvinces = ( data, e ) => {
     const handleProvinces = ( e ) => {
-        const departamentos = ubigeos.filter(ubigeo => ubigeo.departamento === e.target.value)
+        setDpto(e.value)
+        const departamentos = ubigeos.filter(ubigeo => ubigeo.departamento === e.value)
         const provincias = [...new Set(departamentos.map(item => item.provincia))]
         setProvinces(provincias.sort())
     }
     
     // const handleDistricts = ( {value} ) => {
     const handleDistricts = ( e ) => {
-        const provincias = ubigeos.filter(ubigeo => ubigeo.provincia === e.target.value)
+        const provincias = ubigeos.filter(ubigeo => ubigeo.provincia === e.value)
         const distritos = [...new Set(provincias.map(item => item.distrito))]
         setDistricts(distritos.sort())
     }
 
     const onSubmit = (data, event) => {
-        console.log(data)
+        data.dpto = dpto;
+        data.distrito = data.distrito.value;
         event.preventDefault();
+        console.log(data)
         // const apellidos = data.apellidos.toUpperCase();
         // const nombres = data.nombres.toUpperCase();
         
         // const usuario = data.usuario;
         // const password = data.password;
-        console.log(data)
-		axios
-			.post(URL, data)
-			.then(res => {
-          alert('Usuario creado')
-				  navigate('/');
-			})
-			.catch(err => {
-            console.log(err)
-      });
+
+        axios
+          .post(URL, data)
+          .then(res => {
+              alert('Usuario creado')
+              navigate('/');
+          })
+          .catch(err => {
+                console.log(err)
+          });
     }
 
-    const handleDoc = (e) => {
+    const handleDoc = ( e ) => {
         // console.log(e)
         // setDoc(e.target.value)
     }
@@ -100,9 +101,13 @@ function Signup() {
     return (
         // <div className='signup-container rounded'>
             <div className="signup-form rounded">
-                <h1 className='signup-header mb-1'>Crear usuario</h1>
+                <h1 className='signup-header mt-4'>Registrar usuario</h1>
+                <hr />
                 <Form className=' p-3 p-md-5' onSubmit={handleSubmit(onSubmit)}>
                     <Container>
+                    
+                      <h4><FaUserAlt/> DATOS PERSONALES</h4>
+                      <hr />
                         <Row xs={1} md={2} lg={3}>
                 <Col>
                 {/* <Controller
@@ -175,70 +180,70 @@ function Signup() {
                       <Form.Label>Hijos</Form.Label>
                       <Form.Control type="number" placeholder="Hijos" {...register('numhij')}/>
                   </Form.Group>
-                  </Col>
-                  <Col>
                   <Form.Group className="mb-3" controlId="formBasicDirección">
                       <Form.Label>Dirección</Form.Label>
                       <Form.Control type="text" placeholder="Dirección" {...register('direccion')}/>
                   </Form.Group>
+                  </Col>
+                  <Col>
                   
                   <Form.Group className="mb-3" controlId="formBasicDepartamento">
                       <Form.Label>Departamento</Form.Label>
-                      <Form.Select {...register('dpto')} onChange={handleProvinces}>
+                      {/* <Form.Select {...register('dpto')} onChange={handleProvinces}>
                         <option>Seleccionar</option>
                         {
                             departments?.map((department, index) => (
                                 <option key={index}>{department}</option>
                             ))
                         }
-                      </Form.Select>
-                      {/* <Select
-                        // name='b'
-                        // option='a'
-                        value={dpto}
-                        // defaultValue={ { label: 'Buscar departamento' } }
-                        options = {departments?.map(department => ({ label: department, value: department }))}
-                        onChange={handleProvinces}
-                        {...register('dpto')}
-                        /> */}
+                      </Form.Select> */}
+                        {/* <Controller
+                          render={({ field }) => (
+                              <Select { ...field } onChange={handleProvinces}
+                              options = {departments?.map(department => ({ label: department, value: department }))}/>)}
+                          name='dpto'
+                          control={control}
+                        >
+                        </Controller> */}
+                        <Select onChange={handleProvinces}
+                              options = {departments?.map(department => ({ label: department, value: department }))}/>                        
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicProvincia">
                       <Form.Label>Provincia</Form.Label>
                       {/* {...register('provincia')} */}
-                      <Form.Select onChange={handleDistricts}>
+                      {/* <Form.Select onChange={handleDistricts}>
                         <option>Seleccionar</option>
                         {
                             provinces?.map((province, index) => (
                                 <option key={index}>{province}</option>
                             ))
                         }
-                      </Form.Select>
+                      </Form.Select> */}
 
-                      {/* <Select
-                        defaultValue={ { label: 'Buscar provincia' } }
-                        options = {provinces?.map(province => ({ label: province, value: province }))}
-                        onChange={handleDistricts}
-                        // {...register('distrito')}
-                        /> */}
+                              <Select onChange={handleDistricts}
+                              options = {provinces?.map(province => ({ label: province, value: province }))}/>                        
 
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicDistrito">
                       <Form.Label>Distrito</Form.Label>
 
-                      <Form.Select {...register('distrito')}>
+                      {/* <Form.Select {...register('distrito')}>
                         <option>Seleccionar</option>
                         {
                             districts?.map((district, index) => (
                                 <option key={index}>{district}</option>
                             ))
                         }
-                      </Form.Select>
-
-                      {/* <Select
-                        defaultValue={ { label: 'Buscar distrito' } }
-                        options = {districts?.map(district => ({ label: district, value: district }))}
-                        // {...register('distrito')}
-                        /> */}
+                      </Form.Select> */}
+                        <Controller
+                          render={({ field }) => (
+                            <Select { ...field } options = {districts?.map(district => ({ label: district, value: district }))}/>)}
+                            name='distrito'
+                            // {...register('dpto')}
+                           
+                            control={control}
+                            >
+                        </Controller>
 
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicRefDir">
@@ -299,8 +304,6 @@ function Signup() {
                         <option value="2">OTRO</option>
                       </Form.Select>
                   </Form.Group>
-                  </Col>
-                  <Col>
                   <Form.Group className="mb-3" controlId="formBasicCargo">
                       <Form.Label>Cargo</Form.Label>
                       <Form.Select {...register('cargo')}>
@@ -313,6 +316,8 @@ function Signup() {
                         <option value="1">TEAMLEADER</option>
                       </Form.Select>
                   </Form.Group>
+                  </Col>
+                  <Col>
                   <Form.Group className="mb-3" controlId="formBasicIdSucursal">
                       <Form.Label>Sucursal</Form.Label>
                       <Form.Select {...register('idsucursal')}>
@@ -323,32 +328,7 @@ function Signup() {
                         <option value="1">SUCURSAL TRUX | HUANCHACO</option>
                       </Form.Select>
                   </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicUsuario">
-                      <Form.Label><span className='asterisco'>*</span>Usuario</Form.Label>
-                      <Form.Control type="text" placeholder="Usuario" 
-                      {...register("usuario", {
-                          required: {
-                            value: true,
-                            message: 'Ingrese usuario'
-                          }
-                        })}/>
-                  </Form.Group>
-                  {errors.usuario && <Alert variant='danger'>{errors.usuario.message}</Alert>}
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Label><span className='asterisco'>*</span>Contraseña</Form.Label>
-                      <Form.Control type="password" placeholder="Contraseña" 
-                      {...register("password", {
-                          required: {
-                            value: true,
-                            message: "Ingrese contraseña"
-                          },
-                          minLength: {
-                            value: 4,
-                            message: "La contraseña debe tener al menos 4 caracteres"
-                          }
-                        })}/>
-                  </Form.Group>
-                  {errors.password && <Alert variant='danger'>{errors.password.message}</Alert>}
+                  
                   <Form.Group className="mb-3" controlId="formBasicIdEstado">
                       <Form.Label>Id Estado</Form.Label>
                       <Form.Control type="text" placeholder="Id Estado" {...register('idestado')}/>
@@ -374,12 +354,45 @@ function Signup() {
                         <option value="1">PREVENTIVA REPROGRAMACIONES: PREVENTIVA_BANCO_FALABELLA</option>
                       </Form.Select>
                   </Form.Group>
+                  <Card>
+                    <Card.Body>
+                    <Card.Title><FaUserLock /> Acceso</Card.Title>
+                  <Form.Group className="mb-3" controlId="formBasicUsuario">
+                      <Form.Label><span className='asterisco'>*</span>Usuario</Form.Label>
+                      <Form.Control type="text" placeholder="Usuario" 
+                      {...register("usuario", {
+                          required: {
+                            value: true,
+                            message: 'Ingrese usuario'
+                          }
+                        })}/>
+                  </Form.Group>
+                  {errors.usuario && <Alert className='alert' variant='danger'>{errors.usuario.message}</Alert>}
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Label><span className='asterisco'>*</span>Contraseña</Form.Label>
+                      <Form.Control type="password" placeholder="Contraseña" 
+                      {...register("password", {
+                          required: {
+                            value: true,
+                            message: "Ingrese contraseña"
+                          },
+                          minLength: {
+                            value: 4,
+                            message: "La contraseña debe tener al menos 4 caracteres"
+                          }
+                        })}/>
+                  </Form.Group>
+                  {errors.password && <Alert className='alert' variant='danger'>{errors.password.message}</Alert>}
+                  </Card.Body>
+                  </Card>
                   </Col>
                   </Row>
                   </Container>
+                  <div className='signup-btn'>
                   <Button variant="primary" type="submit">
-                      Crear
+                      Registrar <ImArrowRight/>
                   </Button>
+                  </div>
                 </Form>
                 
             </div>

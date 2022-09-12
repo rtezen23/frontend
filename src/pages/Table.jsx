@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Button from 'react-bootstrap/esm/Button';
+import Form from 'react-bootstrap/esm/Form';
 import DataTable, { createTheme } from 'react-data-table-component';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -119,6 +120,7 @@ export const Table = () => {
 			return {...gestion, fecha_tmk: newDate.toLocaleString()}
 		})
 		setPersonal(newGestions);
+		setFilteredPersonal(newGestions);
 	};
 
 	useEffect(() => {
@@ -161,7 +163,17 @@ export const Table = () => {
 		selectAllRowsItem: true,
 		selectAllRowsItemText: 'Todos',
 	};
+	
+	/* ---------------------- DATATABLE FILTER ----------------------- */
+	const [search, setSearch] = useState('');
+	const [filteredPersonal, setFilteredPersonal] = useState([]);
 
+	useEffect(() => {
+		const result = personal.filter( item => {
+			return item.IDENTIFICADOR.toLowerCase().match(search.toLowerCase());
+		});
+		setFilteredPersonal(result);
+	}, [search])
 	return (
 		<>
 			<h2 style={{color: '#000'}}>Bienvenido(a) {personalActivo.NOMBRES} {personalActivo.APELLIDOS}</h2>
@@ -171,12 +183,20 @@ export const Table = () => {
 				<DataTable
 					// responsive
 					columns={columns}
-					data={personal}
+					data={filteredPersonal}
 					// theme='custom'
 					pagination
 					paginationComponentOptions={paginationOptions}
 					fixedHeader
 					fixedHeaderScrollHeight='600px'
+					title="Contact List"
+					subHeader
+					subHeaderComponent={
+						<Form.Control type="text" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Baja" />
+					}
+					subHeaderAlign='left'
+			// selectableRows
+			// persistTableHead
 				/>
 			</div>
 		</>

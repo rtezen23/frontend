@@ -46,8 +46,9 @@ export const SheetJS = () => {
                 resolve(data);
             };
             fileReader.onerror = (err => { 
+              console.log('error')
+              setisLoading(false)
                 reject(err);
-                setisLoading(false)
             })
         });
 
