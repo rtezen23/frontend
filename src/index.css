@@ -25,22 +25,28 @@ body {
 
 /* All routes container (not navbar) */
 .main-content {
+	margin-top: 2em;
+	/* display: grid;
+	place-items: center; */
 	display: flex;
-	/* place-items: center; => default */
 	justify-content: center;
 	align-content: center;
 	flex-wrap: wrap;
-	padding: 0 1em;
 	/* height: calc(100% - 80px); */
 	height: fit-content;
-	
+}
+
+.table-filter{
+	width: 100%;
+	max-width: 300px;
 }
 
 /* DATATABLE STYLES */
 .rdt_TableCol {
 	/* background-color: #5a5857; */
-	background-color: #fff;
-	color: #fff;
+	background-color: #eee;
+	color: #000;
+	font-weight: bold;
 }
 
 .rdt_TableCell {

@@ -1,15 +1,9 @@
 .sheet-container{
-    width: 100%;
+    width: 90%;
     height: 100%;
-    
     display: flex;
     gap: 1em;
     flex-direction: column;
-    
-}
-
-.sheet-table{
-    
 }
 
 .sheet-button{

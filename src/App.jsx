@@ -6,10 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import Sidebar from './components/sidebarDropdown/Sidebar';
-import Overview from './pages/Overview';
-import { Reports, ReportsOne, ReportsThree, ReportsTwo } from './pages/Reports';
-import Team from './pages/Team';
-import { SheetJS } from './components/SheetJS';
+import { SheetJS } from './pages/SheetJS';
 
 function App() {
 
@@ -23,9 +20,8 @@ function App() {
             <Route path='/signup' element={<Signup/>}/>
             <Route element={<ProtectedRoutes/>}>
               <Route path='/table' element={<Table/>}/>
+              <Route path='/excel' element={<SheetJS/>} />
             </Route>
-            {/* new */}
-            <Route path='/excel' element={<SheetJS/>} />
           </Routes>
         </div>
       </Router>

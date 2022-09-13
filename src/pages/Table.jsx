@@ -192,7 +192,7 @@ export const Table = () => {
 					title="Contact List"
 					subHeader
 					subHeaderComponent={
-						<Form.Control type="text" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Baja" />
+						<Form.Control className='table-filter' type="text" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Identificador" />
 					}
 					subHeaderAlign='left'
 			// selectableRows

@@ -5,9 +5,99 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import DataTable from 'react-data-table-component';
 import axios from 'axios';
 import './sheetjs.css'
 
+const columns = [
+	{
+		name: 'fecha_tmk',
+		selector: row => row.fecha_tmk,
+		grow: 2,
+		center: true
+	},
+	{
+		name: 'IDENTIFICADOR',
+		selector: row => row.IDENTIFICADOR,
+	},
+	{
+		name: 'id_table',
+		selector: row => row.id_table,
+	},
+	{
+		name: 'IDEFECTO',
+		selector: row => row.IDEFECTO,
+	},
+	{
+		name: 'IDMOTIVO',
+		selector: row => row.IDMOTIVO,
+	},
+	{
+		name: 'IDCONTACTO',
+		selector: row => row.IDCONTACTO,
+	},
+	{
+		name: 'OBSERVACION',
+		selector: row => row.OBSERVACION,
+	},
+	{
+		name: 'IDTELEFONO',
+		selector: row => row.IDTELEFONO,
+	},
+	{
+		name: 'IDDIRECCION',
+		selector: row => row.IDDIRECCION,
+	},
+	{
+		name: 'IDPERSONAL',
+		selector: row => row.IDPERSONAL,
+	},
+	{
+		name: 'NOMCONTACTO',
+		selector: row => row.NOMCONTACTO,
+	},
+	{
+		name: 'PISOS',
+		selector: row => row.PISOS,
+	},
+	{
+		name: 'PUERTA',
+		selector: row => row.PUERTA,
+	},
+	{
+		name: 'FACHADA',
+		selector: row => row.FACHADA,
+	},
+	{
+		name: 'fecha_asignacion',
+		selector: row => row.fecha_asignacion,
+	},
+	{
+		name: 'fecha_analisis',
+		selector: row => row.fecha_analisis,
+	},
+	{
+		name: 'estado',
+		selector: row => row.estado,
+	},
+	{
+		name: 'id_registro',
+		selector: row => row.id_registro,
+	},
+	{
+		name: 'fecha_promesa',
+		selector: row => row.fecha_promesa,
+	},
+	{
+		name: 'monto_promesa',
+		selector: row => row.monto_promesa,
+		right: true,
+	},
+	{
+		name: 'fecha_programacion',
+		selector: row => row.fecha_programacion,
+	},
+];
 
 export const SheetJS = () => {
 
@@ -28,17 +118,18 @@ export const SheetJS = () => {
         })
     }
 
+
     const readExcel = file => {
         const promise = new Promise((resolve, reject) => {
             const fileReader = new FileReader();
             fileReader.readAsArrayBuffer(file);
             fileReader.onload = e => {
-                const bufferArray = e.target.result;
-
-                const wb = XLSX.read(bufferArray, {type: 'buffer'});
+              const bufferArray = e.target.result;
+              
+              const wb = XLSX.read(bufferArray, {type: 'buffer', raw: true}); //cellDates:true, dateNF:'mm/dd/yyyy;@',
 
                 const wsname = wb.SheetNames[0];
-
+              
                 const ws = wb.Sheets[wsname];
 
                 const data = XLSX.utils.sheet_to_json(ws);
@@ -59,6 +150,13 @@ export const SheetJS = () => {
         })
     };
 
+    const paginationOptions = {
+      rowsPerPageText: 'Filas por página',
+      rangeSeparatorText: 'de',
+      selectAllRowsItem: true,
+      selectAllRowsItemText: 'Todos',
+    };
+
   return (
     
     <div className='sheet-container'>
@@ -66,7 +164,7 @@ export const SheetJS = () => {
       <Form.Group controlId="formFileLg" className="mb-3" onInputCapture={()=>setisLoading(true)} onChange={e => {          const file = e.target.files[0];
           readExcel(file);
         }}>
-        <Form.Label>Seleccione excel</Form.Label>
+        <Form.Label>Seleccione excel (.csv)</Form.Label>
         <Form.Control type="file" size="lg" />
       </Form.Group>
         {registers.length ? (
@@ -80,36 +178,10 @@ export const SheetJS = () => {
         { isLoading &&(
           <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
         )}
-        {registers.length ? (
+        {/* {registers.length ? (
           <Table className='sheet-table' responsive striped bordered hover>
           <thead>
             <tr>
-              {/* <th>IDPERSONAL</th>
-              <th>APELLIDOS</th>
-              <th>NOMBRES</th>
-              <th>FECHANAC</th>
-              <th>SEXO</th>
-              <th>DOC</th>
-              <th>ESTCIV</th>
-              <th>CARFAM</th>
-              <th>NUMHIJ</th>
-              <th>DIRECCION</th>
-              <th>DISTRITO</th>
-              <th>DPTO</th>
-              <th>REFDIR</th>
-              <th>TLF</th>
-              <th>CEL</th>
-              <th>EMAIL</th>
-              <th>GRADOINS</th>
-              <th>CARGO</th>
-              <th>IDSUCURSAL</th>
-              <th>USUARIO</th>
-              <th>PASSWORD</th>
-              <th>IDESTADO</th>
-              <th>fecha_registro</th>
-              <th>fecha_baja</th>
-              <th>id_cartera</th>
-              <th>api_token</th> */}
               <th>fecha_tmk</th>
               <th>IDENTIFICADOR</th>
               <th>id_table</th>
@@ -163,7 +235,18 @@ export const SheetJS = () => {
         </Table>
     
           ) : ''
-        }
+        } */}
+
+        <DataTable
+					// responsive
+					columns={columns}
+					data={registers}
+					pagination
+					paginationComponentOptions={paginationOptions}
+					fixedHeader
+					fixedHeaderScrollHeight='600px'
+					title="Registros:"
+				/>
     </div>
   )
 }
